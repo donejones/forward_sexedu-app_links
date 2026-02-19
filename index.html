@@ -11,9 +11,9 @@
             --card-bg: rgba(255, 255, 255, 0.98);
             --text-main: #0f172a;
             --text-muted: #64748b;
-            --accent: #3b82f6;
-            --accent-soft: #eff6ff;
-            --accent-dark: #1e40af;
+            --accent-blue: #007aff;
+            --accent-green: #3ddc84;
+            --accent-soft: #f1f5f9;
         }
 
         * {
@@ -32,6 +32,11 @@
             padding: 20px;
             color: var(--text-main);
             line-height: 1.5;
+        }
+
+        /* RTL Support */
+        [dir="rtl"] body {
+            text-align: right;
         }
 
         .glass-card {
@@ -76,7 +81,7 @@
         }
 
         #info {
-            color: var(--accent-dark);
+            color: var(--text-main);
             font-size: 0.875rem;
             font-weight: 600;
             display: flex;
@@ -107,11 +112,16 @@
 
         .store-button:hover {
             transform: translateY(-2px);
-            background: #1a1a1a;
+            opacity: 0.9;
         }
 
-        .store-button.hidden {
-            display: none;
+        /* Platform Highlighting */
+        .store-button.highlight-ios {
+            background-color: var(--accent-blue);
+        }
+        .store-button.highlight-android {
+            background-color: var(--accent-green);
+            color: #000; /* Better contrast for Android Green */
         }
 
         .store-button svg {
@@ -121,6 +131,9 @@
 
         .button-text {
             text-align: left;
+        }
+        [dir="rtl"] .button-text {
+            text-align: right;
         }
 
         .button-subtitle {
@@ -156,17 +169,18 @@
         }
 
         .more-info:hover {
-            color: var(--accent);
+            color: var(--accent-blue);
         }
 
-        /* Spinner animation */
+        /* Spinner animation (hidden by default now) */
         .spinner {
             width: 18px;
             height: 18px;
-            border: 2px solid rgba(59, 130, 246, 0.2);
-            border-top: 2px solid var(--accent);
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-top: 2px solid var(--text-muted);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
+            display: none;
         }
 
         @keyframes spin {
@@ -178,50 +192,41 @@
 <body>
 
     <div class="glass-card">
-        <!-- App Icon: Now locally hosted for better privacy -->
-        <img 
-            src="icon.png" 
-            alt="Das bin ich! Logo" 
-            class="app-icon"
-        >
+        <img src="icon.png" alt="Logo" class="app-icon">
 
-        <h1>Das bin ich!</h1>
-        <p class="description">Entdecke die offizielle App. Sicher, lehrreich und direkt für dich gemacht.</p>
+        <h1 id="txt-title">Das bin ich!</h1>
+        <p class="description" id="txt-desc">Entdecke die offizielle App. Sicher, lehrreich und direkt für dich gemacht.</p>
 
-        <!-- Status area -->
         <div id="statusContainer">
             <p id="info">
-                <span class="spinner" id="spinner"></span>
-                Suche App Store...
+                <span id="txt-status">Wähle dein Betriebssystem:</span>
             </p>
         </div>
 
-        <!-- Buttons -->
         <div class="buttons-container">
-            <a id="iosBtn" class="store-button hidden" href="https://apps.apple.com/us/app/this-is-me/id1621708148">
+            <a id="iosBtn" class="store-button" href="https://apps.apple.com/us/app/this-is-me/id1621708148">
                 <svg viewBox="0 0 384 512" fill="currentColor">
                     <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 21.8-88.5 21.8-11.4 0-51.1-20.8-83.6-20.8-42.3.6-81.2 24.7-102.8 62.2-44.1 76.5-11.2 189.6 30.7 250.3 20.6 29.7 45.4 63.3 77.2 62.1 30.6-1.1 42.4-19.8 79.5-19.8 37 0 47.7 19.8 79.5 19.1 32.5-1 55-30.1 75.3-59.8 23.4-34.1 33-67 33.4-68.6-.8-.3-65.1-24.9-65.4-100.3zM281.8 100c15.8-19.2 26.5-45.8 23.6-72.4-23 1-50.8 15.4-67.3 34.6-14.8 17.1-27.7 44.5-24.3 70.3 25.6 2 52.1-13.3 68-32.5z"/>
                 </svg>
                 <div class="button-text">
-                    <span class="button-subtitle">Laden im</span>
+                    <span class="button-subtitle" id="txt-ios-sub">Laden im</span>
                     <span class="button-title">App Store</span>
                 </div>
             </a>
 
-            <a id="androidBtn" class="store-button hidden" href="https://play.google.com/store/apps/details?id=com.studiogaus.sexedu">
+            <a id="androidBtn" class="store-button" href="https://play.google.com/store/apps/details?id=com.studiogaus.sexedu">
                 <svg viewBox="0 0 512 512" fill="currentColor">
                     <path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-10.3 18-28.5-1.2-38.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/>
                 </svg>
                 <div class="button-text">
-                    <span class="button-subtitle">Jetzt bei</span>
+                    <span class="button-subtitle" id="txt-android-sub">Jetzt bei</span>
                     <span class="button-title">Google Play</span>
                 </div>
             </a>
         </div>
 
-        <!-- Footer -->
         <div class="footer">
-            <a href="https://sexedu.eduskills.plus/" target="_blank" class="more-info">
+            <a href="https://sexedu.eduskills.plus/" target="_blank" class="more-info" id="txt-more">
                 Mehr Informationen
                 <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
             </a>
@@ -230,45 +235,95 @@
 
     <script>
         (function() {
-            var ua = navigator.userAgent || "";
-            var isIOS = /iPhone|iPod/.test(ua);
-            var isIPad = /iPad/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-            var isAndroid = /Android/.test(ua);
-            var isMac = /Macintosh/.test(ua);
+            // Localization Data
+            const translations = {
+                de: {
+                    title: "Das bin ich!",
+                    desc: "Entdecke die offizielle App. Sicher, lehrreich und direkt für dich gemacht.",
+                    status: "Wähle dein Betriebssystem:",
+                    iosSub: "Laden im",
+                    androidSub: "Jetzt bei",
+                    more: "Mehr Informationen",
+                    dir: "ltr"
+                },
+                en: {
+                    title: "This is me!",
+                    desc: "Discover the official app. Safe, educational, and made just for you.",
+                    status: "Choose your operating system:",
+                    iosSub: "Download on the",
+                    androidSub: "Get it on",
+                    more: "More Information",
+                    dir: "ltr"
+                },
+                tr: {
+                    title: "Bu benim!",
+                    desc: "Resmi uygulamayı keşfedin. Güvenli, eğitici ve doğrudan sizin için yapıldı.",
+                    status: "İşletim sisteminizi seçin:",
+                    iosSub: "Şuradan indirin:",
+                    androidSub: "Şuradan alın:",
+                    more: "Daha Fazla Bilgi",
+                    dir: "ltr"
+                },
+                ro: {
+                    title: "Acesta sunt eu!",
+                    desc: "Descoperă aplicația oficială. Sigură, educativă și creată direct pentru tine.",
+                    status: "Alege sistemul de operare:",
+                    iosSub: "Descărcați de pe",
+                    androidSub: "Acum pe",
+                    more: "Mai multe informații",
+                    dir: "ltr"
+                },
+                hi: {
+                    title: "यह मैं हूँ!",
+                    desc: "आधिकारिक ऐप खोजें। सुरक्षित, शैक्षिक और सीधे आपके लिए बनाया गया है।",
+                    status: "अपना ऑपरेटिंग सिस्टम चुनें:",
+                    iosSub: "से डाउनलोड करें",
+                    androidSub: "अभी प्राप्त करें",
+                    more: "अधिक जानकारी",
+                    dir: "ltr"
+                },
+                ar: {
+                    title: "هذا أنا!",
+                    desc: "اكتشف التطبيق الرسمي. آمن، تعليمي ومصمم خصيصاً لك.",
+                    status: "اختر نظام التشغيل الخاص بك:",
+                    iosSub: "حمّل من",
+                    androidSub: "احصل عليه من",
+                    more: "مزيد من المعلومات",
+                    dir: "rtl"
+                }
+            };
 
-            var iosBtn = document.getElementById("iosBtn");
-            var androidBtn = document.getElementById("androidBtn");
-            var info = document.getElementById("info");
-            var spinner = document.getElementById("spinner");
+            // Detect Language
+            const userLang = navigator.language.split('-')[0];
+            const lang = translations[userLang] ? userLang : 'de'; // Fallback to German
+            const t = translations[lang];
 
-            function showManualSelection() {
-                if (spinner) spinner.style.display = "none";
-                info.textContent = "Wähle dein Betriebssystem:";
-                iosBtn.classList.remove("hidden");
-                androidBtn.classList.remove("hidden");
+            // Apply translations and Direction
+            document.documentElement.lang = lang;
+            document.documentElement.dir = t.dir;
+            document.getElementById('txt-title').textContent = t.title;
+            document.getElementById('txt-desc').textContent = t.desc;
+            document.getElementById('txt-status').textContent = t.status;
+            document.getElementById('txt-ios-sub').textContent = t.iosSub;
+            document.getElementById('txt-android-sub').textContent = t.androidSub;
+            document.getElementById('txt-more').firstChild.textContent = t.more + ' ';
+
+            // OS Detection & Highlighting
+            const ua = navigator.userAgent || "";
+            const isIOS = /iPhone|iPod/.test(ua);
+            const isIPad = /iPad/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+            const isAndroid = /Android/.test(ua);
+            
+            const iosBtn = document.getElementById("iosBtn");
+            const androidBtn = document.getElementById("androidBtn");
+
+            if (isIOS || isIPad) {
+                iosBtn.classList.add("highlight-ios");
+            } else if (isAndroid) {
+                androidBtn.classList.add("highlight-android");
             }
+            // For Mac desktop or generic, no highlight is applied as requested (remain black)
 
-            if (isIOS || isIPad || isMac) {
-                info.textContent = "Weiterleitung zum App Store...";
-                iosBtn.classList.remove("hidden");
-                setTimeout(function() {
-                    window.location.href = iosBtn.href;
-                    setTimeout(showManualSelection, 3000);
-                }, 800);
-                return;
-            }
-
-            if (isAndroid) {
-                info.textContent = "Weiterleitung zu Google Play...";
-                androidBtn.classList.remove("hidden");
-                setTimeout(function() {
-                    window.location.href = androidBtn.href;
-                    setTimeout(showManualSelection, 3000);
-                }, 800);
-                return;
-            }
-
-            showManualSelection();
         })();
     </script>
 </body>
