@@ -3,26 +3,62 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>App Redirect</title>
+<title>Download Our App</title>
 <script>
-(function() {
-  var ua = navigator.userAgent;
+(function () {
+  var ua = navigator.userAgent || "";
+  var isIOS = /iPhone|iPod/.test(ua);
+  var isIPad = /iPad/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  var isAndroid = /Android/.test(ua);
+  var isMac = /Macintosh/.test(ua);
 
-  if (/iPad|iPhone|iPod/.test(ua)) {
+  if (isIOS || isIPad) {
     location.replace("https://apps.apple.com/us/app/this-is-me/id1621708148");
-  } else if (/android/i.test(ua)) {
-    location.replace("https://play.google.com/store/apps/details?id=com.studiogaus.sexedu");
+    return;
   }
+
+  if (isAndroid) {
+    location.replace("https://play.google.com/store/apps/details?id=com.studiogaus.sexedu");
+    return;
+  }
+
+  if (isMac) {
+    // Non-mobile Apple device (Mac)
+    location.replace("https://apps.apple.com/us/app/this-is-me/id1621708148");
+    return;
+  }
+
+  // All other devices fall through to manual selection page
 })();
 </script>
+<style>
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  text-align: center;
+  padding: 40px;
+}
+a.button {
+  display: inline-block;
+  margin: 10px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  background: black;
+  color: white;
+  text-decoration: none;
+}
+</style>
 </head>
 <body>
-<noscript>
-  <h1>Download our App</h1>
-  <p>
-    <a href="https://apps.apple.com/us/app/this-is-me/id1621708148">App Store</a><br>
-    <a href="https://play.google.com/store/apps/details?id=com.studiogaus.sexedu">Google Play</a>
-  </p>
-</noscript>
+<h1>Download Our App</h1>
+<p>Select your platform:</p>
+
+<a class="button" href="https://apps.apple.com/us/app/this-is-me/id1621708148">
+  Download on the App Store
+</a>
+
+<a class="button" href="https://play.google.com/store/apps/details?id=com.studiogaus.sexedu">
+  Get it on Google Play
+</a>
+
 </body>
 </html>
