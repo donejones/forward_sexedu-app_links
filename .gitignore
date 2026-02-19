@@ -1,0 +1,11 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files (if you ever add them)
+.env
+.env.local
+
+# Editor folders (optional)
+.vscode/
+.idea/
