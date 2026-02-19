@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>App Redirect</title>
+<script>
+(function() {
+  var ua = navigator.userAgent;
+
+  if (/iPad|iPhone|iPod/.test(ua)) {
+    location.replace("https://apps.apple.com/app/idYOUR_APP_ID");
+  } else if (/android/i.test(ua)) {
+    location.replace("https://play.google.com/store/apps/details?id=YOUR_PACKAGE_NAME");
+  }
+})();
+</script>
+</head>
+<body>
+<noscript>
+  <h1>Download our App</h1>
+  <p>
+    <a href="https://apps.apple.com/app/idYOUR_APP_ID">App Store</a><br>
+    <a href="https://play.google.com/store/apps/details?id=YOUR_PACKAGE_NAME">Google Play</a>
+  </p>
+</noscript>
+</body>
+</html>
